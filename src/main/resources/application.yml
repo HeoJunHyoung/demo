@@ -1,0 +1,57 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: demo
+
+  # Database Connection (MySQL)
+  datasource:
+    url: jdbc:mysql://localhost:3306/demo_db?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
+    username: ${DB_USERNAME:root}
+    password: ${DB_PASSWORD:root}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  # JPA & Hibernate Settings
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        format_sql: true
+        show_sql: true
+        default_batch_fetch_size: 100
+    open-in-view: false
+
+  # Redis Settings
+  data:
+    redis:
+      host: ${REDIS_HOST:localhost}
+      port: ${REDIS_PORT:6379}
+
+  # OAuth2 Social Login Settings
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: ${GOOGLE_CLIENT_ID:your-google-client-id-placeholder}
+            client-secret: ${GOOGLE_CLIENT_SECRET:your-google-client-secret-placeholder}
+            scope:
+              - profile
+              - email
+
+# JWT Security Settings
+jwt:
+  # HS256 ???? ??? ?? 32?(256??) ??? ?? ??? ? ??
+  secret: ${JWT_SECRET:c2VjcmV0LWtleS1kZW1vLXByb2plY3Qtc3ByaW5nLWJvb3Qtand0LXNlY3JldC1rZXkK}
+  access-token-expiration: 1800000 # 30? (???)
+  refresh-token-expiration: 1209600000 # 14? (???)
+
+# Logging Levels for Debugging & SQL Inspection
+logging:
+  level:
+    root: INFO
+    com.example.demo: DEBUG
+    org.hibernate.SQL: DEBUG
+    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
